@@ -3,6 +3,7 @@
 These tests deliberately cover only ordinary examples. They show how pytest works,
 but they are not a sufficient test suite for the specification in SPECIFICATION.md.
 """
+import pytest
 
 from weather import (
     average_temperature,
@@ -50,3 +51,158 @@ def test_hottest_measurement_with_unique_maximum():
     ]
 
     assert hottest_measurement(measurements) == ("Düsseldorf", 720, 25.0)
+
+
+
+#------------------------------------------------------------------------------------------------------------#
+# Test parse_time_function
+# assert parse_time("14:21") == 861
+
+def test_invalid_time1():
+    with pytest.raises(ValueError):
+        parse_time(".")
+
+
+def test_invalid_time2():
+    with pytest.raises(ValueError):
+        parse_time(":")
+
+def test_invalid_time3():
+    with pytest.raises(ValueError):
+        parse_time("25:")
+
+
+def test_invalid_time4():
+    with pytest.raises(ValueError):
+        parse_time(":61")
+
+
+def test_invalid_time5():
+    with pytest.raises(ValueError):
+        parse_time("25:-1")
+
+
+def test_invalid_time6():
+    with pytest.raises(ValueError):
+        parse_time("-12:00")
+
+
+def test_invalid_time7():
+    with pytest.raises(ValueError):
+        parse_time("25:12")
+
+
+def test_invalid_time8():
+    with pytest.raises(ValueError):
+        parse_time("99:00")
+
+
+def test_invalid_time9():
+    with pytest.raises(ValueError):
+        parse_time(":00")
+
+
+def test_invalid_time10():
+    with pytest.raises(ValueError):
+        parse_time("=:00")
+
+def test_invalid_time11():
+    with pytest.raises(ValueError):
+        parse_time("asd:asd")
+
+def test_invalid_time12():
+    with pytest.raises(ValueError):
+        parse_time("242:ui")
+
+def test_invalid_time13():
+    with pytest.raises(ValueError):
+        parse_time("123:456")
+
+def test_invalid_time14():
+    with pytest.raises(ValueError):
+        parse_time("1234:5678")
+
+def test_invalid_time15():
+    with pytest.raises(ValueError):
+        parse_time("-4:-37")
+
+#------------------------------------------------------------------------------------------------------------#
+# Test parse_time_function
+#  assert parse_measurement("Köln;14:21;21.7") == ("Köln", 861, 21.7)
+
+
+def test_invalid_parse_measurement1():
+    with pytest.raises(ValueError):
+        parse_measurement(123)
+
+def test_invalid_parse_measurement2():
+    with pytest.raises(ValueError):
+        parse_measurement(";asd;")
+
+def test_invalid_parse_measurement3():
+    with pytest.raises(ValueError):
+        parse_measurement(";;asd")
+
+def test_invalid_parse_measurement4():
+    with pytest.raises(ValueError):
+        parse_measurement(";;")
+
+def test_invalid_parse_measurement5():
+    with pytest.raises(ValueError):
+        parse_measurement(";;12")
+
+def test_invalid_parse_measurement6():
+    with pytest.raises(ValueError):
+        parse_measurement(";12.6;")
+
+def test_invalid_parse_measurement7():
+    with pytest.raises(ValueError):
+        parse_measurement("12;;")
+
+def test_invalid_parse_measurement8():
+    with pytest.raises(ValueError):
+        parse_measurement("12.5;;")
+
+def test_invalid_parse_measurement9():
+    with pytest.raises(ValueError):
+        parse_measurement(" ")
+
+def test_invalid_parse_measurement10():
+    with pytest.raises(ValueError):
+        parse_measurement("")
+
+
+#------------------------------------------------------------------------------------------------------------#
+# Test filter_by_temperature_function
+
+
+''' 
+measurements = [
+        ("Köln", 600, 10.0),
+        ("Düsseldorf", 720, 18.5),
+        ("Bonn", 900, 25.0),
+    ]
+
+    assert filter_by_temperature(measurements, 15.0, 20.0) == [
+        ("Düsseldorf", 720, 18.5)
+    ]
+'''
+
+def test_invalid_filter_by_temperature1():
+    with pytest.raises(ValueError):
+        filter_by_temperature(" ",20,15)
+
+
+def test_invalid_filter_by_temperature2():
+    with pytest.raises(ValueError):
+        filter_by_temperature(" ",20,-100)
+
+
+def test_invalid_filter_by_temperature3():
+    with pytest.raises(ValueError):
+        filter_by_temperature("",100,-100)
+
+def test_invalid_filter_by_temperature4():
+    with pytest.raises(ValueError):
+        filter_by_temperature("123",1000,-1000)
+
