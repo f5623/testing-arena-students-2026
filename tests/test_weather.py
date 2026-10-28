@@ -3,6 +3,7 @@
 These tests deliberately cover only ordinary examples. They show how pytest works,
 but they are not a sufficient test suite for the specification in SPECIFICATION.md.
 """
+import pytest
 
 from weather import (
     average_temperature,
@@ -50,3 +51,24 @@ def test_hottest_measurement_with_unique_maximum():
     ]
 
     assert hottest_measurement(measurements) == ("Düsseldorf", 720, 25.0)
+
+
+#----------------------------------------------------------------------------------------------#
+# Tests for parse time
+
+def test_invalid_time1():
+    with pytest.raises(ValueError):
+        parse_time("ab:cd")
+
+def test_invalid_time2():
+    with pytest.raises(ValueError):
+        parse_time("ab.cd")
+
+def test_invalid_time3():
+    with pytest.raises(ValueError):
+        parse_time("a:b")
+
+def test_invalid_time4():
+    with pytest.raises(ValueError):
+        parse_time("a.b")
+    
