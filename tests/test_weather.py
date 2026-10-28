@@ -58,10 +58,73 @@ def test_hottest_measurement_with_unique_maximum():
 # Test parse_time_function
 # assert parse_time("14:21") == 861
 
-
 def test_invalid_time1():
     with pytest.raises(ValueError):
-        parse_time("14:21")
+        parse_time(".")
+
+
+def test_invalid_time2():
+    with pytest.raises(ValueError):
+        parse_time(":")
+
+def test_invalid_time3():
+    with pytest.raises(ValueError):
+        parse_time("25:")
+
+
+def test_invalid_time4():
+    with pytest.raises(ValueError):
+        parse_time(":61")
+
+
+def test_invalid_time5():
+    with pytest.raises(ValueError):
+        parse_time("25:-1")
+
+
+def test_invalid_time6():
+    with pytest.raises(ValueError):
+        parse_time("-12:00")
+
+
+def test_invalid_time7():
+    with pytest.raises(ValueError):
+        parse_time("25:12")
+
+
+def test_invalid_time8():
+    with pytest.raises(ValueError):
+        parse_time("99:00")
+
+
+def test_invalid_time9():
+    with pytest.raises(ValueError):
+        parse_time(":00")
+
+
+def test_invalid_time10():
+    with pytest.raises(ValueError):
+        parse_time("=:00")
+
+def test_invalid_time11():
+    with pytest.raises(ValueError):
+        parse_time("asd:asd")
+
+def test_invalid_time12():
+    with pytest.raises(ValueError):
+        parse_time("242:ui")
+
+def test_invalid_time13():
+    with pytest.raises(ValueError):
+        parse_time("123:456")
+
+def test_invalid_time14():
+    with pytest.raises(ValueError):
+        parse_time("1234:5678")
+
+def test_invalid_time15():
+    with pytest.raises(ValueError):
+        parse_time("-4:-37")
 
 #------------------------------------------------------------------------------------------------------------#
 # Test parse_time_function
