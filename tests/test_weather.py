@@ -175,7 +175,7 @@ def test_invalid_measurement18():
 
 #----------------------------------------------------------------------------------------------#
 # Tests for average_temperature
-# 
+# 1
 
 def test_invalid_avg_temp1():
     with pytest.raises(ValueError):
@@ -208,6 +208,8 @@ def test_invalid_avg_temp7():
 def test_invalid_avg_temp8():
     with pytest.raises(ValueError):
         average_temperature('',"köln")
+
+
 '''
 def test_invalid_avg_temp():
     with pytest.raises(ValueError):
@@ -233,4 +235,55 @@ def test_invalid_avg_temp():
     with pytest.raises(ValueError):
         average_temperature('')
 
+'''
+
+
+#----------------------------------------------------------------------------------------------#
+# Tests for hottest_measurement
+# 
+
+def test_invalid_hottest_temp1():
+    with pytest.raises(ValueError):
+        hottest_measurement('')
+
+'''def test_invalid_hottest_temp2():
+    with pytest.raises(ValueError):
+        hottest_measurement('01010120274871287481274')'''
+
+def test_invalid_hottest_temp3():
+    with pytest.raises(IndexError):
+        hottest_measurement('12')
+
+def test_invalid_hottest_temp4():
+    with pytest.raises(IndexError):
+        hottest_measurement('-100')
+
+def test_invalid_hottest_temp5():
+    with pytest.raises(IndexError):
+        hottest_measurement("1,2,3")
+
+'''def test_invalid_hottest_temp6():
+    with pytest.raises(ValueError):
+        hottest_measurement("-10,5,0")
+'''
+'''
+def test_invalid_hottest_temp():
+    with pytest.raises(ValueError):
+        hottest_measurement('')
+
+def test_invalid_hottest_temp():
+    with pytest.raises(ValueError):
+        hottest_measurement('')
+
+def test_invalid_hottest_temp():
+    with pytest.raises(ValueError):
+        hottest_measurement('')
+
+def test_invalid_hottest_temp():
+    with pytest.raises(ValueError):
+        hottest_measurement('')
+
+def test_invalid_hottest_temp():
+    with pytest.raises(ValueError):
+        hottest_measurement('')
 '''
