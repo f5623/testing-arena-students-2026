@@ -61,7 +61,7 @@ parse_time("00:00") == 0
 parse_time("23:59") == 1439
 '''
 
-'''def test_invalid_time1():
+def test_invalid_time1():
     with pytest.raises(ValueError):
         parse_time("ab:cd")
 
@@ -75,17 +75,57 @@ def test_invalid_time3():
 
 def test_invalid_time4():
     with pytest.raises(ValueError):
-        parse_time("a.b")'''
+        parse_time("a.b")
 
 def test_invalid_time5():
     with pytest.raises(ValueError):
         parse_time("24:00")
 
-'''def test_invalid_time6():
+def test_invalid_time6():
     with pytest.raises(ValueError):
-        parse_time("24:60")'''
+        parse_time("24:60")
 
-'''def test_invalid_time7():
+def test_invalid_time7():
     with pytest.raises(ValueError):
-        parse_time("23:60")'''
+        parse_time("23:60")
 
+
+#----------------------------------------------------------------------------------------------#
+# Tests for parse_measurement
+
+def test_invalid_measurement1():
+    with pytest.raises(ValueError):
+        parse_measurement(1)
+
+
+def test_invalid_measurement2():
+    with pytest.raises(ValueError):
+        parse_measurement("a:b:c")
+
+def test_invalid_measurement3():
+    with pytest.raises(ValueError):
+        parse_measurement("a:")
+
+def test_invalid_measurement4():
+    with pytest.raises(ValueError):
+        parse_measurement("a:b")
+
+def test_invalid_measurement5():
+    with pytest.raises(ValueError):
+        parse_measurement(":c")
+
+def test_invalid_measurement6():
+    with pytest.raises(ValueError):
+        parse_measurement(" Köln , 1:1 ; 21 ")
+
+def test_invalid_measurement7():
+    with pytest.raises(ValueError):
+        parse_measurement(" Köln ; 14;21 ; 21 ")
+
+def test_invalid_measurement8():
+    with pytest.raises(ValueError):
+        parse_measurement("2; 14;21 ; 21 ")
+
+def test_invalid_measurement8():
+    with pytest.raises(ValueError):
+        parse_measurement("2; 14;21 ; 21 ")
