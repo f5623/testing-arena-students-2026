@@ -97,7 +97,6 @@ def test_invalid_measurement1():
     with pytest.raises(ValueError):
         parse_measurement(1)
 
-
 def test_invalid_measurement2():
     with pytest.raises(ValueError):
         parse_measurement("a:b:c")
@@ -116,11 +115,11 @@ def test_invalid_measurement5():
 
 def test_invalid_measurement6():
     with pytest.raises(ValueError):
-        parse_measurement(" Köln , 1:1 ; 21 ")
+        parse_measurement(" Köln , 1:1 , 21 ")
 
 def test_invalid_measurement7():
     with pytest.raises(ValueError):
-        parse_measurement(" Köln ; 14;21 ; 21 ")
+        parse_measurement(" Köln : 14;21 : 21 ")
 
 def test_invalid_measurement8():
     with pytest.raises(ValueError):
