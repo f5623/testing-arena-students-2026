@@ -179,36 +179,36 @@ def test_invalid_measurement18():
 
 def test_invalid_avg_temp1():
     with pytest.raises(ValueError):
-        average_temperature('a')
+        average_temperature('a',"Köln")
 
 def test_invalid_avg_temp2():
     with pytest.raises(ValueError):
-        average_temperature('b')
+        average_temperature("Köln",'b')
 
 def test_invalid_avg_temp3():
     with pytest.raises(ValueError):
-        average_temperature('-1000')
+        average_temperature('-1000',"Köln")
 
 def test_invalid_avg_temp4():
     with pytest.raises(ValueError):
-        average_temperature('1000')
+        average_temperature('1000',"Köln")
 
 def test_invalid_avg_temp5():
     with pytest.raises(ValueError):
-        average_temperature('[1,2,3],"Köln')
+        average_temperature('[1,2,3]',"Köln")
 
 def test_invalid_avg_temp6():
     with pytest.raises(ValueError):
-        average_temperature('[1,2,3],"köln')
+        average_temperature('[1,2,3]',"köln")
+
+def test_invalid_avg_temp7():
+    with pytest.raises(ValueError):
+        average_temperature(' ',"köln")
+
+def test_invalid_avg_temp8():
+    with pytest.raises(ValueError):
+        average_temperature('',"köln")
 '''
-def test_invalid_avg_temp():
-    with pytest.raises(ValueError):
-        average_temperature('')
-
-def test_invalid_avg_temp():
-    with pytest.raises(ValueError):
-        average_temperature('')
-
 def test_invalid_avg_temp():
     with pytest.raises(ValueError):
         average_temperature('')
