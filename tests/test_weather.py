@@ -128,3 +128,32 @@ def test_invalid_measurement8():
 def test_invalid_measurement8():
     with pytest.raises(ValueError):
         parse_measurement("2; 14;21 ; 21 ")
+
+
+def test_invalid_measurement9():
+    with pytest.raises(ValueError):
+        parse_measurement(1.5)
+
+def test_invalid_measurement10():
+    with pytest.raises(ValueError):
+        parse_measurement('')
+
+def test_invalid_measurement11():
+    with pytest.raises(ValueError):
+        parse_measurement(' ')
+
+def test_invalid_measurement12():
+    with pytest.raises(ValueError):
+        parse_measurement('Köln')
+
+def test_invalid_measurement13():
+    with pytest.raises(ValueError):
+        parse_measurement('1')
+
+def test_invalid_measurement14():
+    with pytest.raises(ValueError):
+        parse_measurement('; ; ; ;')
+
+def test_invalid_measurement15():
+    with pytest.raises(ValueError):
+        parse_measurement('1;2 ; 3; 4;5')
