@@ -87,6 +87,21 @@ def test_invalid_time7():
     with pytest.raises(ValueError):
         parse_time("23:60")
 
+## Some extra tests
+
+def test_parse_time_midnight():
+    assert parse_time("00:00") == 0
+
+def test_parse_time_last_minute():
+    assert parse_time("23:59") == 1439
+
+def test_parse_time_no_leading_zeros():
+    assert parse_time("9:5") == 545
+
+def test_parse_time_single_digit_hour():
+    assert parse_time("9:05") == 545
+
+
 
 #----------------------------------------------------------------------------------------------#
 # Tests for parse_measurement
@@ -168,6 +183,57 @@ def test_invalid_measurement18():
     with pytest.raises(ValueError):
         parse_measurement('::')
 
+# some extra tests
+
+def test_parse_measurement_whitespace():
+    assert parse_measurement(" Köln ; 14:21 ; 21.7 ") == ("Köln", 861, 21.7)
+
+def test_parse_measurement_invalid_time():
+    with pytest.raises(ValueError):
+        parse_measurement("Köln;25:00;21.7")
+
+def test_parse_measurement_invalid_temperature():
+    with pytest.raises(ValueError):
+        parse_measurement("Köln;14:21;abc")
+
+def test_parse_measurement_empty_city_after_strip():
+    with pytest.raises(ValueError):
+        parse_measurement("   ;14:21;21.7")
+
+def test_parse_measurement_negative_temp_ok():
+    # Spec: no plausibility check
+    assert parse_measurement("Köln;14:21;-5.3") == ("Köln", 861, -5.3)   
+
+#----------------------------------------------------------------------------------------------#
+# Tests for filter_by_temperature
+# 
+
+def test_filter_inclusive_boundaries():
+    m = [("A", 0, 10.0), ("B", 0, 20.0), ("C", 0, 15.0)]
+    assert filter_by_temperature(m, 10.0, 20.0) == [
+        ("A", 0, 10.0), ("B", 0, 20.0), ("C", 0, 15.0)
+    ]
+
+def test_filter_preserves_order_and_duplicates():
+    m = [("A", 0, 20.0), ("B", 0, 15.0), ("A", 0, 20.0)]
+    assert filter_by_temperature(m, 10.0, 25.0) == [
+        ("A", 0, 20.0), ("B", 0, 15.0), ("A", 0, 20.0)
+    ]
+
+def test_filter_lower_gt_upper():
+    with pytest.raises(ValueError):
+        filter_by_temperature([], 20.0, 10.0)
+
+def test_filter_does_not_mutate_input():
+    m = [("A", 0, 15.0), ("B", 0, 5.0)]
+    original = list(m)
+    filter_by_temperature(m, 10.0, 20.0)
+    assert m == original
+
+def test_filter_returns_new_list():
+    m = [("A", 0, 15.0)]
+    result = filter_by_temperature(m, 10.0, 20.0)
+    assert result is not m   
 
 #----------------------------------------------------------------------------------------------#
 # Tests for average_temperature
@@ -205,34 +271,25 @@ def test_invalid_avg_temp8():
     with pytest.raises(ValueError):
         average_temperature('',"köln")
 
+# more tests
 
-'''
-def test_invalid_avg_temp():
+def test_average_case_sensitive():
+    m = [("Köln", 0, 10.0), ("köln", 0, 20.0)]
+    assert average_temperature(m, "Köln") == 10.0
+
+def test_average_no_match_raises():
     with pytest.raises(ValueError):
-        average_temperature('')
+        average_temperature([("Berlin", 0, 10.0)], "Köln")
 
-def test_invalid_avg_temp():
-    with pytest.raises(ValueError):
-        average_temperature('')
+def test_average_ignores_other_cities():
+    m = [("Köln", 0, 10.0), ("Bonn", 0, 100.0), ("Köln", 0, 20.0)]
+    assert average_temperature(m, "Köln") == 15.0
 
-def test_invalid_avg_temp():
-    with pytest.raises(ValueError):
-        average_temperature('')
-
-def test_invalid_avg_temp():
-    with pytest.raises(ValueError):
-        average_temperature('')
-
-def test_invalid_avg_temp():
-    with pytest.raises(ValueError):
-        average_temperature('')
-
-def test_invalid_avg_temp():
-    with pytest.raises(ValueError):
-        average_temperature('')
-
-'''
-
+def test_average_does_not_mutate():
+    m = [("Köln", 0, 10.0)]
+    original = list(m)
+    average_temperature(m, "Köln")
+    assert m == original   
 
 #----------------------------------------------------------------------------------------------#
 # Tests for hottest_measurement
@@ -258,28 +315,22 @@ def test_invalid_hottest_temp5():
     with pytest.raises(IndexError):
         hottest_measurement("1,2,3")
 
-'''def test_invalid_hottest_temp6():
-    with pytest.raises(ValueError):
-        hottest_measurement("-10,5,0")
-'''
-'''
-def test_invalid_hottest_temp():
-    with pytest.raises(ValueError):
-        hottest_measurement('')
+# more tests
 
-def test_invalid_hottest_temp():
-    with pytest.raises(ValueError):
-        hottest_measurement('')
+def test_hottest_tie_earliest_time_wins():
+    m = [("A", 500, 30.0), ("B", 200, 30.0)]
+    assert hottest_measurement(m) == ("B", 200, 30.0)
 
-def test_invalid_hottest_temp():
-    with pytest.raises(ValueError):
-        hottest_measurement('')
+def test_hottest_tie_same_time_first_occurrence():
+    m = [("A", 300, 30.0), ("B", 300, 30.0)]
+    assert hottest_measurement(m) == ("A", 300, 30.0)
 
-def test_invalid_hottest_temp():
+def test_hottest_empty_raises():
     with pytest.raises(ValueError):
-        hottest_measurement('')
+        hottest_measurement([])
 
-def test_invalid_hottest_temp():
-    with pytest.raises(ValueError):
-        hottest_measurement('')
-'''
+def test_hottest_does_not_mutate():
+    m = [("A", 0, 10.0), ("B", 0, 20.0)]
+    original = list(m)
+    hottest_measurement(m)
+    assert m == original   
