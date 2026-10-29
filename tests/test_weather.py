@@ -157,3 +157,15 @@ def test_invalid_measurement14():
 def test_invalid_measurement15():
     with pytest.raises(ValueError):
         parse_measurement('1;2 ; 3; 4;5')
+
+def test_invalid_measurement16():
+    with pytest.raises(ValueError):
+        parse_measurement(';')
+
+def test_invalid_measurement17():
+    with pytest.raises(ValueError):
+        parse_measurement('; ;')
+
+def test_invalid_measurement18():
+    with pytest.raises(ValueError):
+        parse_measurement('::')
