@@ -55,6 +55,7 @@ def test_hottest_measurement_with_unique_maximum():
 
 #----------------------------------------------------------------------------------------------#
 # Tests for parse time
+# 2 found
 '''
 parse_time("14:21") == 861
 parse_time("00:00") == 0
@@ -92,6 +93,7 @@ def test_invalid_time7():
 
 #----------------------------------------------------------------------------------------------#
 # Tests for parse_measurement
+# None found
 
 def test_invalid_measurement1():
     with pytest.raises(ValueError):
@@ -169,3 +171,66 @@ def test_invalid_measurement17():
 def test_invalid_measurement18():
     with pytest.raises(ValueError):
         parse_measurement('::')
+
+
+#----------------------------------------------------------------------------------------------#
+# Tests for average_temperature
+# 
+
+def test_invalid_avg_temp1():
+    with pytest.raises(ValueError):
+        average_temperature('a')
+
+def test_invalid_avg_temp2():
+    with pytest.raises(ValueError):
+        average_temperature('b')
+
+def test_invalid_avg_temp3():
+    with pytest.raises(ValueError):
+        average_temperature('-1000')
+
+def test_invalid_avg_temp4():
+    with pytest.raises(ValueError):
+        average_temperature('1000')
+
+def test_invalid_avg_temp5():
+    with pytest.raises(ValueError):
+        average_temperature('[1,2,3],"Köln')
+
+def test_invalid_avg_temp6():
+    with pytest.raises(ValueError):
+        average_temperature('[1,2,3],"köln')
+'''
+def test_invalid_avg_temp():
+    with pytest.raises(ValueError):
+        average_temperature('')
+
+def test_invalid_avg_temp():
+    with pytest.raises(ValueError):
+        average_temperature('')
+
+def test_invalid_avg_temp():
+    with pytest.raises(ValueError):
+        average_temperature('')
+
+def test_invalid_avg_temp():
+    with pytest.raises(ValueError):
+        average_temperature('')
+
+def test_invalid_avg_temp():
+    with pytest.raises(ValueError):
+        average_temperature('')
+
+def test_invalid_avg_temp():
+    with pytest.raises(ValueError):
+        average_temperature('')
+
+def test_invalid_avg_temp():
+    with pytest.raises(ValueError):
+        average_temperature('')
+
+def test_invalid_avg_temp():
+    with pytest.raises(ValueError):
+        average_temperature('')
+
+'''
